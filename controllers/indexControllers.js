@@ -1,14 +1,20 @@
 const { catchAsyncError } = require('../middlewares/catchAsyncError');
 const Student = require('../models/studentModel');
 const ErrorHandler = require('../utils/ErrorHandlers');
+const { sendtoken } = require('../utils/SendToken');
 
 exports.homepage = catchAsyncError((req, res, next) => {
 	res.json({ message: 'Homepage of Internshala' });
 });
 
+exports.currentstudent = catchAsyncError(async (req, res, next) => {
+	const student = await Student.findById(req.id).exec();
+	res.json({ student });
+});
+
 exports.studentsignup = catchAsyncError(async (req, res, next) => {
 	const student = await new Student(req.body).save();
-	res.status(201).json(student);
+	sendtoken(student, 200, res);
 });
 
 exports.studentsignin = catchAsyncError(async (req, res, next) => {
@@ -24,7 +30,25 @@ exports.studentsignin = catchAsyncError(async (req, res, next) => {
 	const isMatch = student.comparepassword(req.body.password);
 	if (!isMatch) return next(new ErrorHandler('Wrond Credientials', 500));
 
-	res.json(student);
+	sendtoken(student, 200, res);
 });
 
-exports.studentsignout = catchAsyncError(async (req, res, next) => {});
+exports.studentsignout = catchAsyncError(async (req, res, next) => {
+	res.clearCookie('token');
+	res.json({ message: 'Signout User!' });
+});
+
+exports.forgetmail = catchAsyncError(async (req, res, next) => {
+	const student = await Student.findOne({ email: req.body.email }).exec();
+
+	if (!student) {
+		return next(
+			new ErrorHandler('User not found with this Email Address', 404)
+		);
+	}
+
+	const url = `${req.protocol}://${req.get('host')}/student/forget-link/${
+		student._id
+	}`;
+	res.json({ student, url });
+});

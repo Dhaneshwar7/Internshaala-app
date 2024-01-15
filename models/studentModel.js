@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const studentModel = mongoose.Schema(
 	{
@@ -33,9 +34,15 @@ studentModel.pre('save', function () {
 	this.password = bcrypt.hashSync(this.password, salt);
 });
 
-studentModel.methods.comparepassword = function(password){
-    return bcrypt.compareSync(password , this.password)
-}
+studentModel.methods.comparepassword = function (password) {
+	return bcrypt.compareSync(password, this.password);
+};
+
+studentModel.methods.getjwttoken = function () {
+	return jwt.sign({ id: this._id }, process.env.JWT_TOKEN_SECRET, {
+		expiresIn: process.env.JWT_EXPIRE,
+	});
+};
 
 const Student = mongoose.model('student', studentModel);
 module.exports = Student;
