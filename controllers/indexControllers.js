@@ -2,6 +2,7 @@ const { catchAsyncError } = require('../middlewares/catchAsyncError');
 const Student = require('../models/studentModel');
 const ErrorHandler = require('../utils/ErrorHandlers');
 const { sendtoken } = require('../utils/SendToken');
+const { sendmail } = require('../utils/nodemailer');
 
 exports.homepage = catchAsyncError((req, res, next) => {
 	res.json({ message: 'Homepage of Internshala' });
@@ -38,7 +39,7 @@ exports.studentsignout = catchAsyncError(async (req, res, next) => {
 	res.json({ message: 'Signout User!' });
 });
 
-exports.forgetmail = catchAsyncError(async (req, res, next) => {
+exports.studentsendmail = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findOne({ email: req.body.email }).exec();
 
 	if (!student) {
@@ -50,5 +51,8 @@ exports.forgetmail = catchAsyncError(async (req, res, next) => {
 	const url = `${req.protocol}://${req.get('host')}/student/forget-link/${
 		student._id
 	}`;
+
+	sendmail(req, res, next, url);
+
 	res.json({ student, url });
 });
