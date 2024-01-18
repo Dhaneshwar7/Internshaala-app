@@ -9,6 +9,10 @@ dotenv.config({ path: './.env' });
 // Database Connection
 connectDb.databaseConnect();
 
+//Express FileUpload
+const fileupload = require("express-fileupload")
+app.use(fileupload())
+
 //logger
 app.use(loggger('tiny'));
 

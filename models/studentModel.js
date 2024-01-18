@@ -11,7 +11,6 @@ const studentModel = mongoose.Schema(
 		},
 		lastname: {
 			type: String,
-			required: [true, 'Last Name is Required'],
 			minLength: [3, 'Last Name should be atleast of 3 Character'],
 		},
 		contact: {
@@ -50,7 +49,11 @@ const studentModel = mongoose.Schema(
 			default: 0,
 		},
 		avatar: {
-			type: String,
+			type: Object,
+			default: {
+				fileId: '',
+				url: 'https://plus.unsplash.com/premium_photo-1699534403319-978d740f9297?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+			},
 		},
 	},
 	{ timestamps: true }

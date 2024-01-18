@@ -8,6 +8,8 @@ const {
 	studentsendmail,
 	studentforgetlink,
 	studentresetpassword,
+	studentUpdate,
+	studentAvatar,
 } = require('../controllers/indexControllers');
 const { isAuthenticated } = require('../middlewares/auth');
 
@@ -40,5 +42,11 @@ router.post(
 	isAuthenticated,
 	studentresetpassword
 );
+
+// POST /student/update/:studentId
+router.post('/student/update/:id', isAuthenticated, studentUpdate);
+
+// POST /student/avatar/:studentId
+router.post('/student/avatar/:id', isAuthenticated, studentAvatar);
 
 module.exports = router;
