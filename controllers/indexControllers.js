@@ -73,34 +73,16 @@ exports.studentforgetlink = catchAsyncError(async (req, res, next) => {
 		student.resetpasswordToken = '0';
 		student.password = req.body.password;
 		await student.save();
-	}else{
-		return next(
-			new ErrorHandler('Invalid forget link ! try again', 500)
-		);
+	} else {
+		return next(new ErrorHandler('Invalid forget link ! try again', 500));
 	}
 
 	res.status(200).json({ message: 'Password Changed Successfully' });
 });
 
-
-exports.studentrestpassword= catchAsyncError(async (req, res, next) => {
-	const student = await Student.findById(req.params.id).exec();
-
-	if (!student) {
-		return next(
-			new ErrorHandler('User not found with this Email Address', 404)
-		);
-	}
-
-	if (student.resetpasswordToken == '1') {
-		student.resetpasswordToken = '0';
-		student.password = req.body.password;
-		await student.save();
-	}else{
-		return next(
-			new ErrorHandler('Invalid forget link ! try again', 500)
-		);
-	}
-
-	res.status(200).json({ message: 'Password Changed Successfully' });
+exports.studentresetpassword = catchAsyncError(async (req, res, next) => {
+	const student = await Student.findById(req.id).exec();
+	student.password = req.body.password;
+	await student.save();
+	sendtoken(student, 201, res);
 });

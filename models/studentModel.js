@@ -4,6 +4,31 @@ const jwt = require('jsonwebtoken');
 
 const studentModel = mongoose.Schema(
 	{
+		firstname: {
+			type: String,
+			required: [true, 'First Name is Required'],
+			minLength: [3, 'Firstname should be atleast of 3 Character'],
+		},
+		lastname: {
+			type: String,
+			required: [true, 'Last Name is Required'],
+			minLength: [3, 'Last Name should be atleast of 3 Character'],
+		},
+		contact: {
+			type: String,
+			required: [true, 'Contact is Required'],
+			minLength: [10, 'Constact must not be exceed of 10 Numbers'],
+			maxLength: [10, 'Constact must be atleast of 10 Numbers'],
+		},
+		city: {
+			type: String,
+			required: [true, 'City is Required'],
+			minLength: [3, 'City Name should be atleast of 3 Character'],
+		},
+		gender: {
+			type: String,
+			enum: ['Male', 'Female', 'Others'],
+		},
 		email: {
 			type: String,
 			required: true,
@@ -23,6 +48,9 @@ const studentModel = mongoose.Schema(
 		resetpasswordToken: {
 			type: String,
 			default: 0,
+		},
+		avatar: {
+			type: String,
 		},
 	},
 	{ timestamps: true }
