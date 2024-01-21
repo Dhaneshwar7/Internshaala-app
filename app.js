@@ -33,7 +33,8 @@ app.use(
 app.use(cookieparser());
 
 //Routes
-app.use('/', require('./routes/indexRoutes'));
+app.use('/user', require('./routes/indexRoutes'));
+app.use('/resume', require('./routes/resumeRoutes.js'));
 
 //Error Handling
 const ErrorHandler = require('./utils/ErrorHandlers');
