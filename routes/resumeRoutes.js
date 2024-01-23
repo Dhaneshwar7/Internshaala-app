@@ -1,5 +1,19 @@
 const express = require('express');
-const { resume, addeducation, editeducation, deleteeducation, addjob, editjob, deletejob, addinternship, editinternship, deleteinternship } = require('../controllers/resumeControllers');
+const {
+	resume,
+	addeducation,
+	editeducation,
+	deleteeducation,
+	addjob,
+	editjob,
+	deletejob,
+	addinternship,
+	editinternship,
+	deleteinternship,
+	addresponsibility,
+	editresponsibility,
+	deleteresponsibility,
+} = require('../controllers/resumeControllers');
 const { isAuthenticated } = require('../middlewares/auth');
 
 const router = express.Router();
@@ -36,5 +50,23 @@ router.post('/edit-internship/:internid', isAuthenticated, editinternship);
 
 //POST DELETE JOBS
 router.post('/delete-internship/:internid', isAuthenticated, deleteinternship);
+
+/* -------------------------Resume Responsibility ---------------- */
+//POST ADD JOBS
+router.post('/add-responsibility', isAuthenticated, addresponsibility);
+
+//POST EDIT JOBS
+router.post(
+	'/edit-responsibility/:responsid',
+	isAuthenticated,
+	editresponsibility
+);
+
+//POST DELETE JOBS
+router.post(
+	'/delete-responsibility/:responsid',
+	isAuthenticated,
+	deleteresponsibility
+);
 
 module.exports = router;

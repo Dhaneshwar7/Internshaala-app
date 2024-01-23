@@ -110,3 +110,36 @@ exports.deleteinternship = catchAsyncError(async (req, res, next) => {
 		resume: student.resume,
 	});
 });
+
+/* -------------------------Resume Responsibilities ---------------- */
+exports.addresponsibility = catchAsyncError(async (req, res, next) => {
+	const student = await Student.findById(req.id).exec();
+	student.resume.responsibilities.push({ ...req.body, id: uuidv4() });
+	await student.save();
+	res.json({ message: 'Responsibility Added', resume: student.resume });
+});
+exports.editresponsibility = catchAsyncError(async (req, res, next) => {
+	const student = await Student.findById(req.id).exec();
+	const internIndex = student.resume.responsibilities.findIndex(
+		i => i.id === req.params.responsid
+	);
+	student.resume.responsibilities[internIndex] = {
+		...student.resume.responsibilities[internIndex],
+		...req.body,
+	};
+	await student.save();
+	res.json({ message: 'Responsibility Updated', resume: student.resume });
+});
+exports.deleteresponsibility = catchAsyncError(async (req, res, next) => {
+	const student = await Student.findById(req.id).exec();
+
+	const filtereResponsibility = student.resume.responsibilities.filter(
+		i => i.id !== req.params.responsid
+	);
+	student.resume.responsibilities = filtereResponsibility;
+	await student.save();
+	res.json({
+		message: 'Responsibility Delete Successfully',
+		resume: student.resume,
+	});
+});
