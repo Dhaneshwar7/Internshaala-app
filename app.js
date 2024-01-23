@@ -46,7 +46,7 @@ app.use(generatedErrors);
 
 app.listen(
 	process.env.PORT,
-	console.log(`server runninG on port ${process.env.PORT}`)
+	console.log(`Server is RunninG on Port ${process.env.PORT}`)
 );
 
 module.exports = app;
