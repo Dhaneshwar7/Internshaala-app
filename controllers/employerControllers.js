@@ -47,18 +47,15 @@ exports.employersendmail = catchAsyncError(async (req, res, next) => {
 
 	if (!employer) {
 		return next(
-			new ErrorHandler('User not found with this Email Address', 404)
+			new ErrorHandler('Employer not found with this Email Address', 404)
 		);
 	}
-
 	const url = `${req.protocol}://${req.get('host')}/employer/forget-link/${
 		employer._id
 	}`;
-
 	sendmail(req, res, next, url);
 	employer.resetpasswordToken = '1';
 	await employer.save();
-
 	res.json({ employer, url });
 });
 
@@ -67,7 +64,7 @@ exports.employerforgetlink = catchAsyncError(async (req, res, next) => {
 
 	if (!employer) {
 		return next(
-			new ErrorHandler('User not found with this Email Address', 404)
+			new ErrorHandler('Employer not found with this Email Address', 404)
 		);
 	}
 
@@ -99,11 +96,11 @@ exports.employerUpdate = catchAsyncError(async (req, res, next) => {
 exports.employerOrganisationLogo = catchAsyncError(async (req, res, next) => {
 	const employer = await Employer.findById(req.params.id).exec();
 
-	const file = req.files.avatar;
-	const modifiedName = `internshala-${Date.now()}${path.extname(file.name)}`;
+	const file = req.files.organisationlogo;
+	const modifiedName = `internshala-employer_org_logo-${Date.now()}${path.extname(file.name)}`;
 
-	if (employer.avatar.fileId !== '') {
-		await imageKit.deleteFile(employer.avatar.fileId);
+	if (employer.organisationlogo.fileId !== '') {
+		await imageKit.deleteFile(employer.organisationlogo.fileId);
 	}
 
 	const { fileId, url } = await imageKit.upload({
@@ -111,7 +108,7 @@ exports.employerOrganisationLogo = catchAsyncError(async (req, res, next) => {
 		fileName: modifiedName,
 	});
 
-	employer.avatar = { fileId, url };
+	employer.organisationlogo = { fileId, url };
 	await employer.save();
 
 	res

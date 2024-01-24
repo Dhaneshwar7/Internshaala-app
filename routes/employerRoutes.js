@@ -31,22 +31,18 @@ router.post('/signin', employersingin);
 router.get('/signout', isAuthenticated, employersignout);
 
 // POST /employer/send-mail
-router.post('/employer/send-mail', employersendmail);
+router.post('/send-mail', employersendmail);
 
 // GET /employer/forget-link/:studentId
-router.get('/employer/forget-link/:id', employerforgetlink);
+router.get('/forget-link/:id', employerforgetlink);
 
 // POST /employer/reset-password/:studentId
-router.post(
-	'/employer/reset-password/:id',
-	isAuthenticated,
-	employerresetpassword
-);
+router.post('/reset-password/:id', isAuthenticated, employerresetpassword);
 
 // POST /employer/update/:studentId
-router.post('/employer/update/:id', isAuthenticated, employerUpdate);
+router.post('/update/:id', isAuthenticated, employerUpdate);
 
 // POST /employer/avatar/:studentId
-router.post('/employer/avatar/:id', isAuthenticated, employerOrganisationLogo);
+router.post('/employeravatar/:id', isAuthenticated, employerOrganisationLogo);
 
 module.exports = router;
