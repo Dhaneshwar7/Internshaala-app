@@ -9,7 +9,7 @@ exports.resume = catchAsyncError(async (req, res, next) => {
 	res.json({ message: 'Resume of USER Internshala', resume });
 });
 
-/* -------------------------- Resume EDUCATION ---------------- */
+/* -------------------------- EDUCATION ---------------- */
 exports.addeducation = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.education.push({ ...req.body, id: uuidv4() });
@@ -45,7 +45,7 @@ exports.deleteeducation = catchAsyncError(async (req, res, next) => {
 	});
 });
 
-/* -------------------------Resume Jobs ---------------- */
+/* ------------------------ Jobs ---------------- */
 exports.addjob = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.jobs.push({ ...req.body, id: uuidv4() });
@@ -77,7 +77,7 @@ exports.deletejob = catchAsyncError(async (req, res, next) => {
 	});
 });
 
-/* -------------------------Resume Internships ---------------- */
+/* ------------------------ Internships ---------------- */
 exports.addinternship = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.internships.push({ ...req.body, id: uuidv4() });
@@ -111,7 +111,7 @@ exports.deleteinternship = catchAsyncError(async (req, res, next) => {
 	});
 });
 
-/* ------------------------- Resume POSITIONS OF RESPONSIBILITY ---------------- */
+/* ------------------------- POSITIONS OF RESPONSIBILITY ---------------- */
 exports.addresponsibility = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.responsibilities.push({ ...req.body, id: uuidv4() });
@@ -144,7 +144,7 @@ exports.deleteresponsibility = catchAsyncError(async (req, res, next) => {
 	});
 });
 
-/* ------------------------- Resume TRAININGS/ COURSES ---------------- */
+/* ------------------------- TRAININGS/ COURSES ---------------- */
 exports.addcourse = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.courses.push({ ...req.body, id: uuidv4() });
@@ -176,7 +176,7 @@ exports.deletecourse = catchAsyncError(async (req, res, next) => {
 	});
 });
 
-/* ------------------------- Resume ACADEMICS/ PERSONAL PROJECTS ---------------- */
+/* ------------------------- ACADEMICS/ PERSONAL PROJECTS ---------------- */
 exports.addproject = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.projects.push({ ...req.body, id: uuidv4() });
@@ -208,7 +208,7 @@ exports.deleteproject = catchAsyncError(async (req, res, next) => {
 	});
 });
 
-/* ------------------------- Resume SKILLS ---------------- */
+/* ------------------------- SKILLS ---------------- */
 exports.addskill = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.skills.push({ ...req.body, id: uuidv4() });
@@ -240,7 +240,7 @@ exports.deleteskill = catchAsyncError(async (req, res, next) => {
 	});
 });
 
-/* ------------------------- Resume PORTFOLIO/ WORK SAMPLES ---------------- */
+/* ------------------------- PORTFOLIO/ WORK SAMPLES ---------------- */
 exports.addworksample = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.worksamples.push({ ...req.body, id: uuidv4() });
@@ -278,7 +278,7 @@ exports.deleteworksample = catchAsyncError(async (req, res, next) => {
 	});
 });
 
-/* ------------------------- Resume ACCOMPLISHMENTS/ ADDITIONAL DETAILS ---------------- */
+/* ------------------------- ACCOMPLISHMENTS/ ADDITIONAL DETAILS ---------------- */
 exports.addaccomplishment = catchAsyncError(async (req, res, next) => {
 	const student = await Student.findById(req.id).exec();
 	student.resume.accomplishments.push({ ...req.body, id: uuidv4() });
