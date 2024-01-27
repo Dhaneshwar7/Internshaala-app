@@ -1,9 +1,11 @@
+const exp = require('constants');
 const { catchAsyncError } = require('../middlewares/catchAsyncError');
 const Employer = require('../models/employerModel');
 const ErrorHandler = require('../utils/ErrorHandlers');
 const { sendtoken } = require('../utils/SendToken');
 const { sendmail } = require('../utils/nodemailer');
 const path = require('path');
+const Internship = require('../models/internshipModel');
 const imageKit = require('../utils/imageKit').uploadImagekit();
 
 exports.homepage = catchAsyncError((req, res, next) => {
@@ -32,7 +34,8 @@ exports.employersingin = catchAsyncError(async (req, res, next) => {
 		);
 	}
 	const isMatch = employer.comparepassword(req.body.password);
-	if (!isMatch) return next(new ErrorHandler('Wrong Employer Credientials', 500));
+	if (!isMatch)
+		return next(new ErrorHandler('Wrong Employer Credientials', 500));
 
 	sendtoken(employer, 200, res);
 });
@@ -97,7 +100,9 @@ exports.employerOrganisationLogo = catchAsyncError(async (req, res, next) => {
 	const employer = await Employer.findById(req.params.id).exec();
 
 	const file = req.files.organisationlogo;
-	const modifiedName = `internshala-employer_org_logo-${Date.now()}${path.extname(file.name)}`;
+	const modifiedName = `internshala-employer_org_logo-${Date.now()}${path.extname(
+		file.name
+	)}`;
 
 	if (employer.organisationlogo.fileId !== '') {
 		await imageKit.deleteFile(employer.organisationlogo.fileId);
@@ -114,4 +119,11 @@ exports.employerOrganisationLogo = catchAsyncError(async (req, res, next) => {
 	res
 		.status(200)
 		.json({ success: true, message: 'Profile Picture Updated Successfully!' });
+});
+
+/* ------------ Intership Controllers ---------- */
+
+exports.createInternship = catchAsyncError(async (req, res, next) => {
+	const internship = await new Internship(req.body).save();
+	res.status(201).json({ success: true, internship });
 });
