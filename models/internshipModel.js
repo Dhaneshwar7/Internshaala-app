@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const internshipModel = mongoose.Schema(
 	{
+		employer: { type: mongoose.Schema.Types.ObjectId, ref: 'employer' },
 		profile: {
 			type: String,
 			required: [true, 'Profile Name is Required'],

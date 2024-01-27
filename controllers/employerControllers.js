@@ -6,6 +6,7 @@ const { sendtoken } = require('../utils/SendToken');
 const { sendmail } = require('../utils/nodemailer');
 const path = require('path');
 const Internship = require('../models/internshipModel');
+const Job = require('../models/jobModel');
 const imageKit = require('../utils/imageKit').uploadImagekit();
 
 exports.homepage = catchAsyncError((req, res, next) => {
@@ -124,6 +125,43 @@ exports.employerOrganisationLogo = catchAsyncError(async (req, res, next) => {
 /* ------------ Intership Controllers ---------- */
 
 exports.createInternship = catchAsyncError(async (req, res, next) => {
-	const internship = await new Internship(req.body).save();
+	const employer = await Employer.findById(req.id).exec();
+	const internship = await new Internship(req.body);
+	internship.employer = employer._id;
+	employer.internships.push(internship._id);
+	await internship.save();
+	await employer.save();
 	res.status(201).json({ success: true, internship });
+});
+
+exports.readAllInternship = catchAsyncError(async (req, res, next) => {
+	const internships = await Internship.findOne().exec();
+	res.status(200).json({ success: true, internships });
+});
+
+exports.readSingleInternship = catchAsyncError(async (req, res, next) => {
+	const internship = await Internship.findById(req.params.id).exec();
+	res.status(200).json({ success: true, internship });
+});
+
+/* ------------ Job Controllers ---------- */
+
+exports.createJob = catchAsyncError(async (req, res, next) => {
+	const employer = await Employer.findById(req.id).exec();
+	const job = await new Job(req.body);
+	job.employer = employer._id;
+	employer.jobs.push(job._id);
+	await job.save();
+	await employer.save();
+	res.status(201).json({ success: true, job });
+});
+
+exports.readAllJob = catchAsyncError(async (req, res, next) => {
+	const jobs = await Job.findOne().exec();
+	res.status(200).json({ success: true, jobs });
+});
+
+exports.readSingleJob = catchAsyncError(async (req, res, next) => {
+	const job = await Job.findById(req.params.id).exec();
+	res.status(200).json({ success: true, job });
 });

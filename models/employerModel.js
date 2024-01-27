@@ -51,7 +51,7 @@ const employerModel = mongoose.Schema(
 			required: [true, 'Organisation Name is Required'],
 			minLength: [3, 'Organisation should be atleast of 3 Character'],
 		},
-		internship: [{ type: mongoose.Schema.Types.ObjectId, ref: 'internship' }],
+		internships: [{ type: mongoose.Schema.Types.ObjectId, ref: 'internship' }],
 		jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'job' }],
 	},
 	{ timestamps: true }

@@ -11,6 +11,11 @@ const {
 	employerOrganisationLogo,
 	employerUpdate,
 	createInternship,
+	readAllInternship,
+	readSingleInternship,
+	createJob,
+	readAllJob,
+	readSingleJob,
 } = require('../controllers/employerControllers');
 const { isAuthenticated } = require('../middlewares/auth');
 
@@ -49,5 +54,25 @@ router.post('/employeravatar/:id', isAuthenticated, employerOrganisationLogo);
 /* ------------ Intership routes ---------- */
 // POST /employer/intership/create
 router.post('/internship/create', isAuthenticated, createInternship);
+
+// POST /employer/intership/readall
+router.post('/internship/readall', isAuthenticated, readAllInternship);
+
+// POST /employer/intership/readsingle/:id
+router.post(
+	'/internship/readsingle/:id',
+	isAuthenticated,
+	readSingleInternship
+);
+
+/* ------------ Intership Jobs ---------- */
+// POST /employer/job/create
+router.post('/job/create', isAuthenticated, createJob);
+
+// POST /employer/job/readall
+router.post('/job/readall', isAuthenticated, readAllJob);
+
+// POST /employer/job/readsingle/:id
+router.post('/job/readsingle/:id', isAuthenticated, readSingleJob);
 
 module.exports = router;
