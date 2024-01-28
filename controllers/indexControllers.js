@@ -1,5 +1,7 @@
 const { catchAsyncError } = require('../middlewares/catchAsyncError');
 const Student = require('../models/studentModel');
+const Internship = require('../models/internshipModel');
+const Job = require('../models/jobModel');
 const ErrorHandler = require('../utils/ErrorHandlers');
 const { sendtoken } = require('../utils/SendToken');
 const { sendmail } = require('../utils/nodemailer');
@@ -113,8 +115,53 @@ exports.studentAvatar = catchAsyncError(async (req, res, next) => {
 
 	student.avatar = { fileId, url };
 	await student.save();
-	
+
 	res
 		.status(200)
 		.json({ success: true, message: 'Profile Picture Updated Successfully!' });
 });
+
+exports.applyInternship = catchAsyncError(async (req, res, next) => {
+	const student = await Student.findById(req.id).exec();
+	const internship = await Internship.findById(req.params.internshipid).exec();
+
+	student.internships.push(internship._id);
+	internship.students.push(student._id);
+
+	await student.save();
+	await internship.save();
+	res.status(200).json({ success: true, message: 'Apply Successfully' });
+});
+
+exports.applyJob = catchAsyncError(async (req, res, next) => {
+	const student = await Student.findById(req.id).exec();
+	const job = await Job.findById(req.params.jobid).exec();
+
+	student.jobs.push(job._id);
+	job.students.push(student._id);
+
+	await student.save();
+	await job.save();
+	res.status(200).json({ success: true, message: 'Apply Successfully' });
+});
+
+/* -------- Sensitive Delete Student ------ */
+exports.deleteStudent = catchAsyncError(async (req, res, next) => {
+	const deletingStudentId = req.params.studentId;
+	try {
+		const deletedStudent = await Student.findByIdAndDelete(deletingStudentId);
+		if (!deletedStudent)
+			return next(new ErrorHandler('Student Not Found', 404));
+		res.status(200).json({
+			status: true,
+			message: 'Student Delete Successfully',
+			deletedStudent,
+		});
+	} catch (error) {
+		res.status(500).json({
+			status: false,
+			message: 'Internal server issue',
+		});
+	}
+});
+

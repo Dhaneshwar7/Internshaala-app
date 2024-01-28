@@ -16,6 +16,7 @@ const {
 	createJob,
 	readAllJob,
 	readSingleJob,
+	deleteEmployer,
 } = require('../controllers/employerControllers');
 const { isAuthenticated } = require('../middlewares/auth');
 
@@ -51,6 +52,10 @@ router.post('/update/:id', isAuthenticated, employerUpdate);
 // POST /employer/avatar/:studentId
 router.post('/employeravatar/:id', isAuthenticated, employerOrganisationLogo);
 
+/* --------------- Delete Employer ------------ */
+// POST /student/delete/:studentId
+router.delete('/delete/:employerId', isAuthenticated, deleteEmployer);
+
 /* ------------ Intership routes ---------- */
 // POST /employer/intership/create
 router.post('/internship/create', isAuthenticated, createInternship);
@@ -65,7 +70,7 @@ router.post(
 	readSingleInternship
 );
 
-/* ------------ Intership Jobs ---------- */
+/* ------------ Jobs Routes ---------- */
 // POST /employer/job/create
 router.post('/job/create', isAuthenticated, createJob);
 
@@ -74,5 +79,9 @@ router.post('/job/readall', isAuthenticated, readAllJob);
 
 // POST /employer/job/readsingle/:id
 router.post('/job/readsingle/:id', isAuthenticated, readSingleJob);
+
+
+
+
 
 module.exports = router;
