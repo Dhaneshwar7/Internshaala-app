@@ -9,7 +9,7 @@ const path = require('path');
 const imageKit = require('../utils/imageKit').uploadImagekit();
 
 exports.homepage = catchAsyncError((req, res, next) => {
-	res.json({ message: 'Homepage of Internshala' });
+	res.send('<h1><i><u>Homepage of Internshala Server</u></i></h1>');
 });
 
 exports.currentstudent = catchAsyncError(async (req, res, next) => {
