@@ -44,6 +44,7 @@ app.use(
 app.use(cookieparser());
 
 //Routes
+
 app.use('/user', require('./routes/indexRoutes'));
 app.use('/resume', require('./routes/resumeRoutes.js'));
 app.use('/employer', require('./routes/employerRoutes.js'));
@@ -55,7 +56,9 @@ app.all('*', (req, res, next) => {
 	next(new ErrorHandler(`Requested URL NOT FOUND ${req.url}`, 404));
 });
 app.use(generatedErrors);
-
+app.get('/',(req,res,next)=>{
+	res.send(`Server is Successfully Running 17july Delta & Jeetu Shabaashh`)
+})
 app.listen(
 	process.env.PORT,
 	console.log(`Server is RunninG on Port ${process.env.PORT}`)
