@@ -9,7 +9,9 @@ const path = require('path');
 const imageKit = require('../utils/imageKit').uploadImagekit();
 
 exports.homepage = catchAsyncError((req, res, next) => {
-	res.send('<h1><i><u>Homepage of Internshala Server</u></i></h1>');
+	res.send(`<div style="width: 100vw;height: 100vh; display: flex; align-items: center; justify-content: center;">
+            <h1 class="ok"  style="font-size: 10vw; font-weight: 800; text-align: center;">Internshala Server is Running ! Thank you 🙏</h1>
+        </div>`);
 });
 
 exports.currentstudent = catchAsyncError(async (req, res, next) => {
